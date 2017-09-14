@@ -1,6 +1,12 @@
-node('docker') {
-    stage 'Do something'
-        docker.image('centos:latest').inside {
-            sh 'hostname'
+pipeline {
+    agent any
+
+    stages {
+        stage('Test') {
+            echo 'Testing'
         }
+        stage('Another') {
+            echo 'Another test'
+        }
+    }
 }
