@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Cleanup') {
       steps {
-        sh 'docker stop jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
+        // sh 'docker stop jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
       }
     }
   }
