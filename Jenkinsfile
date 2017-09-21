@@ -10,13 +10,13 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'curl localhost:8000'
+        sh 'curl localhost:8001'
       }
     }
-    /* stage('Cleanup') {
+    stage('Cleanup') {
       steps {
         sh 'docker stop jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
       }
-    } */
+    }
   }
 }
