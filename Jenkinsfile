@@ -4,7 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'buildling...'
-        sh 'docker build -t something:1.0 .'
+        sh /docker build -t jenkinstest:${python3 -c 'from version import VERSION; print(VERSION,end="")'} ./
       }
     }
     stage('Test') {
