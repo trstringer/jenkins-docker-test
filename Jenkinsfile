@@ -22,7 +22,7 @@ pipeline {
   }
   post {
     failure {
-        mail to: github@trstringer.com, subject: 'Build failed'
+      mail bcc: '', body: 'The build has failed. Look into it.', cc: '', from: '', replyTo: '', subject: 'Build failed', to: 'github@trstringer.com'
     }
   }
 }
