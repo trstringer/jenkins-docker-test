@@ -10,7 +10,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'curl localhost:8001'
+        sh 'curl localhost:8000'
       }
     }
     stage('Cleanup') {
