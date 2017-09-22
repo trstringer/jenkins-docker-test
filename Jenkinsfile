@@ -13,14 +13,12 @@ pipeline {
         sh 'curl localhost:8000'
       }
     }
-    stage('Cleanup') {
-      steps {
-        sh 'docker stop jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
-        sh 'docker image prune'
-      }
-    }
   }
   post {
+    always {
+      sh 'docker stop jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
+      sh 'docker image prune -f'
+    }
     failure {
       mail bcc: '', body: 'The build has failed. Look into it.', cc: '', from: '', replyTo: '', subject: 'Build failed', to: 'github@trstringer.com'
     }
