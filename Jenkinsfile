@@ -1,11 +1,14 @@
 pipeline {
   agent any
+  environment {
+    BUILD_VERSION = '$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
+  }
   stages {
     stage('Build') {
       steps {
         echo 'buildling...'
-        sh 'docker build -t jenkinstest:$(python3 -c \'from version import VERSION; print(VERSION,end="")\') .'
-        sh 'docker run -d -p 8000:8000 --rm --name jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\') jenkinstest:$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
+        sh 'docker build -t jenkinstest:${env.BUILD_VERSION} .'
+        sh 'docker run -d -p 8000:8000 --rm --name jenkinstest${env.BUILD_VERSION} jenkinstest:${env.BUILD_VERSION}'
       }
     }
     stage('Test') {
@@ -17,7 +20,7 @@ pipeline {
   }
   post {
     always {
-      sh 'docker stop jenkinstest$(python3 -c \'from version import VERSION; print(VERSION,end="")\')'
+      sh 'docker stop jenkinstest${env.BUILD_VERSION}'
       sh 'docker image prune -f'
     }
     failure {
