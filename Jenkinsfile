@@ -8,7 +8,7 @@ pipeline {
       steps {
         echo 'buildling...'
         sh "docker build -t jenkinstest:${env.BUILD_VERSION} ."
-        sh 'docker run -d -p 8000:8000 --rm --name jenkinstest${env.BUILD_VERSION} jenkinstest:${env.BUILD_VERSION}'
+        sh "docker run -d -p 8000:8000 --rm --name jenkinstest${env.BUILD_VERSION} jenkinstest:${env.BUILD_VERSION}"
       }
     }
     stage('Test') {
@@ -20,7 +20,7 @@ pipeline {
   }
   post {
     always {
-      sh 'docker stop jenkinstest${env.BUILD_VERSION}'
+      sh "docker stop jenkinstest${env.BUILD_VERSION}"
       sh 'docker image prune -f'
     }
     failure {
