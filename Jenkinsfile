@@ -7,7 +7,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'buildling...'
-        sh 'docker build -t jenkinstest:${env.BUILD_VERSION} .'
+        sh "docker build -t jenkinstest:${env.BUILD_VERSION} ."
         sh 'docker run -d -p 8000:8000 --rm --name jenkinstest${env.BUILD_VERSION} jenkinstest:${env.BUILD_VERSION}'
       }
     }
