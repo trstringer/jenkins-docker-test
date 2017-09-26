@@ -14,7 +14,7 @@ pipeline {
     stage('Test') {
       steps {
         sh 'sleep 5'
-        sh './integration/web_response.sh'
+        sh '. ./integration/web_response.sh'
       }
     }
     stage('Deliver') {
