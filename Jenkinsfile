@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh '. ./integration/web_response.sh'
+        sh 'bash ./integration/web_response.sh'
       }
     }
     stage('Deliver') {
