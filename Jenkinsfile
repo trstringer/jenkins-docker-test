@@ -6,9 +6,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo 'buildling...'
-        sh "docker build -t jenkinstest:${env.BUILD_VERSION} ."
-        sh "docker run -d -p 8000:8000 --rm --name jenkinstest${env.BUILD_VERSION} jenkinstest:${env.BUILD_VERSION}"
+        echo "buildling..."
+        sh "docker build -t trstringer/jenkinstest:${env.BUILD_VERSION} ."
+        sh "docker run -d -p 8000:8000 --rm --name jenkinstest${env.BUILD_VERSION} trstringer/jenkinstest:${env.BUILD_VERSION}"
       }
     }
     stage('Test') {
@@ -17,11 +17,22 @@ pipeline {
         sh 'curl localhost:8000'
       }
     }
+    stage('Deliver') {
+      when {
+        expression {
+          currentBuild.result == null || currentBuild.result == 'SUCCESS'
+        }
+      }
+      steps {
+        echo "pushing image to container registry..."
+        sh "docker push trstringer/jenkinstest:${env.BUILD_VERSION}"
+      }
+    }
   }
   post {
     always {
       sh "docker stop jenkinstest${env.BUILD_VERSION}"
-      sh 'docker image prune -f'
+      sh "docker image prune -f"
     }
     failure {
       mail bcc: '', body: 'The build has failed. Look into it.', cc: '', from: '', replyTo: '', subject: 'Build failed', to: 'github@trstringer.com'
